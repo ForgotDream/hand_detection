@@ -20,7 +20,7 @@
 
 1. 克隆仓库：
    ```bash
-   git clone <repository-url>
+   git clone github.com/ForgotDream/hand_detection.git
    cd hand_detection
    ```
 
