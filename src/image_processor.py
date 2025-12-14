@@ -84,6 +84,9 @@ class ImageProcessor:
       self.latest_index_finger = (int(hand_landmarks[8].x * width), int(hand_landmarks[8].y * height))
       self.latest_middle_finger = (int(hand_landmarks[12].x * width), int(hand_landmarks[12].y * height))
 
+    if platform.system() == "Darwin":
+      frame_rgb = cv2.cvtColor(image.numpy_view(), cv2.COLOR_RGBA2RGB)
+      image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame_rgb)
     annotated_image = draw_landmarks_on_image(image.numpy_view(), detection_result)
 
     q_pixmap = cv2_image_to_qpixmap(cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB))
