@@ -13,7 +13,7 @@
 
 ### 要求
 
-- Python 3.12+
+- Python 3.12
 - 摄像头
 
 ### 安装步骤
@@ -60,5 +60,6 @@ python main.py
 
 ## 注意事项
 
-- MediaPipe 0.10.14 以上的版本在 Windows 环境下会[运行失败](https://github.com/google-ai-edge/mediapipe/issues/5838)。
+- `Mediapipe` 仅支持到 Python 3.12!
+- `MediaPipe` 0.10.14 以上的版本在 Windows 环境下会[运行失败](https://github.com/google-ai-edge/mediapipe/issues/5838)。
 - Linux 系统在 Wayland 环境下运行需要设置 Qt 的平台为 Wayland：`export QT_QPA_PLATFORM=wayland`。
