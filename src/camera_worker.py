@@ -1,6 +1,9 @@
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtGui import QPixmap
 import pyautogui
+from .mouse_simulator import MouseSimulator
+from .roi_manager import ROIManager
+import cv2
 
 class CameraWorker(QThread):
   image_ready = pyqtSignal(QPixmap)
@@ -15,6 +18,7 @@ class CameraWorker(QThread):
     self.last_mouse_x = None
     self.last_mouse_y = None
     self.last_hold = False
+    self.roi_manager = ROIManager(scale=0.8)
 
   def run(self):
     if not self.source.start():
@@ -30,26 +34,25 @@ class CameraWorker(QThread):
         continue
 
       # Process image every frame for smooth display
-      processed_image = self.processor.process_image(frame, timestamp)
+      processed_image = self.processor.process_image(frame, timestamp, self.roi_manager)
+      
+      # Get coordinates
+      coordinates = self.processor.get_latest_finger_coordinates()
+      
+      # Calculate hold status using MouseSimulator static method
+      hold = MouseSimulator.calculate_click_state(coordinates["index_finger"], coordinates["middle_finger"])
 
       # Send mouse commands only when coordinates change significantly
-      coordinates = self.processor.get_latest_finger_coordinates()
       if coordinates["index_finger"]:
         x, y = coordinates["index_finger"]
-        screen_width, screen_height = pyautogui.size()
-        height, width = frame.shape[:2]
-        screen_x = int(((width - x) / width) * screen_width)
-        screen_y = int((y / height) * screen_height)
-        screen_x = max(0, min(screen_width - 1, screen_x))
-        screen_y = max(0, min(screen_height - 1, screen_y))
-        # Calculate hold
-        hold = False
-        if coordinates["index_finger"] and coordinates["middle_finger"]:
-          ix, iy = coordinates["index_finger"]
-          mx, my = coordinates["middle_finger"]
-          dis = ((ix - mx)**2 + (iy - my)**2)**0.5
-          thres = 60 
-          hold = dis < thres
+        
+        screen_pos = self.roi_manager.map_to_screen(x, y)
+        
+        if screen_pos is None:
+          self.msleep(1)
+          continue
+          
+        screen_x, screen_y = screen_pos
         
         # Only send if coordinates changed significantly or hold state changed
         if (self.last_mouse_x is None or 

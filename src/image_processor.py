@@ -5,7 +5,8 @@ import os
 import platform
 import sys
 from PyQt5.QtGui import QImage, QPixmap
-from .draw_landmarks import draw_landmarks_on_image
+from .draw_utils import DrawUtils
+from .mouse_simulator import MouseSimulator
 
 def cv2_image_to_qpixmap(cv2_image_bgr: np.ndarray) -> QPixmap:
   cv2_image_rgb = cv2.cvtColor(cv2_image_bgr, cv2.COLOR_BGR2RGB)
@@ -36,9 +37,6 @@ class ImageProcessor:
     root_dir = os.getcwd()
     model_path = root_dir + "/model/hand_landmarker.task"
 
-    def callback():
-      pass
-
     # Enable GPU acceleration on supported platforms (Linux and macOS)
     if sys.platform.startswith('linux') or sys.platform == 'darwin':
       try:
@@ -68,8 +66,9 @@ class ImageProcessor:
 
     self.latest_index_finger = None
     self.latest_middle_finger = None
+    self.draw_utils = DrawUtils()
 
-  def process_image(self, cv2_original_image: np.ndarray, timestamp) -> QPixmap:
+  def process_image(self, cv2_original_image: np.ndarray, timestamp, roi_manager) -> QPixmap:
     if platform.system() == "Darwin":
       frame_rgb = cv2.cvtColor(cv2_original_image, cv2.COLOR_BGR2RGBA)
       image = mp.Image(image_format=mp.ImageFormat.SRGBA, data=frame_rgb)
@@ -87,7 +86,21 @@ class ImageProcessor:
     if platform.system() == "Darwin":
       frame_rgb = cv2.cvtColor(image.numpy_view(), cv2.COLOR_RGBA2RGB)
       image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame_rgb)
-    annotated_image = draw_landmarks_on_image(image.numpy_view(), detection_result)
+    annotated_image = self.draw_utils.draw_landmarks_on_image(image.numpy_view(), detection_result)
+
+    # Update ROI dimensions
+    height, width = cv2_original_image.shape[:2]
+    roi_manager.update_dimensions(width, height)
+
+    # Draw ROI
+    annotated_image = self.draw_utils.draw_roi(annotated_image, roi_manager)
+
+    # Draw FPS
+    annotated_image = self.draw_utils.draw_fps(annotated_image)
+
+    # Calculate and Draw Click Status
+    hold = MouseSimulator.calculate_click_state(self.latest_index_finger, self.latest_middle_finger)
+    annotated_image = self.draw_utils.draw_click_status(annotated_image, hold)
 
     q_pixmap = cv2_image_to_qpixmap(cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB))
 

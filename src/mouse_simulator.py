@@ -21,3 +21,12 @@ class MouseSimulator:
       self.mouse_controller.release(Button.left)
       print("Mouse Up")
       self.mouse_pressed = False
+
+  @staticmethod
+  def calculate_click_state(index_finger, middle_finger, threshold=60):
+    if index_finger and middle_finger:
+      ix, iy = index_finger
+      mx, my = middle_finger
+      dis = ((ix - mx)**2 + (iy - my)**2)**0.5
+      return dis < threshold
+    return False
