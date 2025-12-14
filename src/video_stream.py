@@ -16,10 +16,10 @@ def get_capture(camera_index = 0):
     print("Detected other OS, using default backend.")
 
   cap = cv2.VideoCapture(camera_index, cap_backend)
-  cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-  cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
+  cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+  cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
-  print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+  print(cap.get(cv2.CAP_PROP_FRAME_WIDTH), end=" x ")
   print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
   return cap

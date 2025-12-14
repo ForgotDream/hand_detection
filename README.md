@@ -38,7 +38,6 @@
    pip install -e .
    ```
 
-**注意：MediaPipe 0.10.14 以上的版本在 Windows 环境下会[运行失败](https://github.com/google-ai-edge/mediapipe/issues/5838)！**
 
 ## 运行
 
@@ -58,3 +57,8 @@ python main.py
 
 - 食指控制鼠标移动
 - 食指和中指靠近时按住鼠标
+
+## 注意事项
+
+- MediaPipe 0.10.14 以上的版本在 Windows 环境下会[运行失败](https://github.com/google-ai-edge/mediapipe/issues/5838)。
+- Linux 系统在 Wayland 环境下运行需要设置 Qt 的平台为 Wayland：`export QT_QPA_PLATFORM=wayland`。

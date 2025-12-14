@@ -48,7 +48,7 @@ class CameraWorker(QThread):
           ix, iy = coordinates["index_finger"]
           mx, my = coordinates["middle_finger"]
           dis = ((ix - mx)**2 + (iy - my)**2)**0.5
-          thres = 20 
+          thres = 60 
           hold = dis < thres
         
         # Only send if coordinates changed significantly or hold state changed
