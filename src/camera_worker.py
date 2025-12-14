@@ -48,7 +48,7 @@ class CameraWorker(QThread):
           ix, iy = coordinates["index_finger"]
           mx, my = coordinates["middle_finger"]
           dis = ((ix - mx)**2 + (iy - my)**2)**0.5
-          thres = 30 
+          thres = 20 
           hold = dis < thres
         
         # Only send if coordinates changed significantly or hold state changed
@@ -60,6 +60,7 @@ class CameraWorker(QThread):
           self.last_mouse_x = screen_x
           self.last_mouse_y = screen_y
           self.last_hold = hold
+        # self.mouse_queue.put((screen_x, screen_y, hold))
 
       # Emit image every frame for smooth display
       self.image_ready.emit(processed_image)

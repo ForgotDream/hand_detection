@@ -19,4 +19,5 @@ class MouseSimulator:
       self.mouse_pressed = True
     elif not hold and self.mouse_pressed:
       self.mouse_controller.release(Button.left)
+      print("Mouse Up")
       self.mouse_pressed = False

@@ -51,7 +51,7 @@ class VideoStream:
     timestamp = int(time.time() * 1000)
     
     # print(f"Captured frame at {timestamp} ms")
-    print(f"fps: {1000/(timestamp - self.prev_timestamp + 1e-5)}")
+    # print(f"fps: {1000/(timestamp - self.prev_timestamp + 1e-5)}")
     self.prev_timestamp = timestamp
 
     return frame, timestamp
