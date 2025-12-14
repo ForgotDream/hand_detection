@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import os
+import platform
 import sys
 from PyQt5.QtGui import QImage, QPixmap
 from .draw_landmarks import draw_landmarks_on_image
@@ -69,8 +70,12 @@ class ImageProcessor:
     self.latest_middle_finger = None
 
   def process_image(self, cv2_original_image: np.ndarray, timestamp) -> QPixmap:
-    frame_rgb = cv2.cvtColor(cv2_original_image, cv2.COLOR_BGR2RGB)
-    image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame_rgb)
+    if platform.system() == "Darwin":
+      frame_rgb = cv2.cvtColor(cv2_original_image, cv2.COLOR_BGR2RGBA)
+      image = mp.Image(image_format=mp.ImageFormat.SRGBA, data=frame_rgb)
+    else:
+      frame_rgb = cv2.cvtColor(cv2_original_image, cv2.COLOR_BGR2RGB)
+      image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame_rgb)
     detection_result = self.landmarker.detect_for_video(image, timestamp)
 
     if detection_result.hand_landmarks:
