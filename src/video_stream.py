@@ -1,6 +1,6 @@
-import mediapipe as mp
 import cv2
 import platform
+import time
 
 def get_capture(camera_index = 0):
   os_name = platform.system()
@@ -38,16 +38,22 @@ class VideoStream:
     return True
   
   def get_frame(self):
+    if self.cap is None:
+      print("Capture device not initialized.")
+      return None, None
+
     ret, frame = self.cap.read()
-    timestamp = int(self.cap.get(cv2.CAP_PROP_POS_MSEC))
+
+    if not ret:
+      print("Can't capture image from system camera!")
+      return None, None
+
+    timestamp = int(time.time() * 1000)
     
     # print(f"Captured frame at {timestamp} ms")
     print(f"fps: {1000/(timestamp - self.prev_timestamp + 1e-5)}")
     self.prev_timestamp = timestamp
 
-    if not ret:
-      print("Can't capture image from system camera!")
-      return None
     return frame, timestamp
 
   def close(self):
