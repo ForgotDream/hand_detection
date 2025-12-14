@@ -1,13 +1,13 @@
 # AI 虚拟鼠标
 
-手势检测应用，使用MediaPipe实现基于手势的鼠标控制。
+手势检测应用，使用 MediaPipe 实现基于手势的鼠标控制。
 
 ## 功能特性
 
 - 实时手势检测
 - 鼠标移动和点击控制
 - 多平台支持（Windows、Linux、macOS）
-- GPU加速（在支持的平台上自动启用）
+- GPU 加速（在支持的平台上自动启用）
 
 ## 安装
 
@@ -46,9 +46,9 @@ python main.py
 
 ## 平台支持
 
-- **Windows**: CPU模式（GPU不支持）
-- **Linux**: 支持GPU加速（如果有兼容的GPU）
-- **macOS**: 支持GPU加速
+- **Windows**: CPU 模式（GPU 不支持）
+- **Linux**: 支持 GPU 加速（如果有兼容的 GPU）
+- **macOS**: 支持 GPU 加速
 
 应用会自动检测平台并启用最佳的处理模式。
 
