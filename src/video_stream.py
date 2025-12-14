@@ -11,6 +11,9 @@ def get_capture(camera_index = 0):
   elif os_name == "Windows":
     cap_backend = cv2.CAP_MSMF 
     print("Detected Windows, attempting MSMF backend.")
+  elif os_name == "Darwin":
+    cap_backend = cv2.CAP_AVFOUNDATION 
+    print("Detected macOS, attempting AVFoundation backend.")
   else:
     cap_backend = cv2.CAP_ANY 
     print("Detected other OS, using default backend.")
