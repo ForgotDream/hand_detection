@@ -38,6 +38,8 @@
    pip install -e .
    ```
 
+**注意：MediaPipe 0.10.14 以上的版本在 Windows 环境下会[运行失败](https://github.com/google-ai-edge/mediapipe/issues/5838)！**
+
 ## 运行
 
 ```bash
