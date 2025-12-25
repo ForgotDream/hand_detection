@@ -38,6 +38,20 @@
    pip install -e .
    ```
 
+### 使用 uv（推荐）
+
+本项目支持使用 [uv](https://github.com/astral-sh/uv) 进行快速配置和运行：
+
+1. 同步环境：
+   ```bash
+   uv sync
+   ```
+
+2. 运行应用：
+   ```bash
+   uv run main.py
+   ```
+
 
 ## 运行
 
