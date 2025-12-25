@@ -3,7 +3,7 @@ name = "hand-detection"
 version = "0.1.0"
 description = "Hand gesture detection application for mouse control"
 readme = "README.md"
-requires-python = "==3.12.12"
+requires-python = ">=3.12,<3.13"
 dependencies = [
     "PyQt5>=5.15.0",
     "mediapipe==0.10.14",
