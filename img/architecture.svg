@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" font-weight="bold" fill="#333">AI Virtual Mouse Architecture</text>
+
+  <!-- Qt Main Thread Box -->
+  <rect x="50" y="80" width="700" height="380" rx="10" ry="10" fill="none" stroke="#2c3e50" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="70" y="110" font-family="Arial, sans-serif" font-size="16" fill="#2c3e50" font-weight="bold">PyQt5 Main Thread (GUI)</text>
+
+  <!-- Camera Window Node -->
+  <g transform="translate(300, 100)">
+    <rect width="200" height="60" rx="5" ry="5" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+    <text x="100" y="35" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">CameraWindow</text>
+  </g>
+
+  <!-- Camera Worker Thread -->
+  <g transform="translate(100, 250)">
+    <rect width="220" height="150" rx="5" ry="5" fill="#ffffff" stroke="#e67e22" stroke-width="2"/>
+    <text x="110" y="30" font-family="Arial, sans-serif" font-size="14" fill="#e67e22" text-anchor="middle" font-weight="bold">CameraWorker Thread</text>
+    
+    <!-- Sub components -->
+    <rect x="20" y="50" width="180" height="30" rx="3" ry="3" fill="#fce4ec" stroke="#e91e63"/>
+    <text x="110" y="70" font-family="Arial, sans-serif" font-size="12" fill="#e91e63" text-anchor="middle">VideoStream (OpenCV)</text>
+    
+    <rect x="20" y="90" width="180" height="30" rx="3" ry="3" fill="#e3f2fd" stroke="#2196f3"/>
+    <text x="110" y="110" font-family="Arial, sans-serif" font-size="12" fill="#2196f3" text-anchor="middle">ImageProcessor (MediaPipe)</text>
+  </g>
+
+  <!-- Mouse Worker Thread -->
+  <g transform="translate(480, 250)">
+    <rect width="220" height="150" rx="5" ry="5" fill="#ffffff" stroke="#27ae60" stroke-width="2"/>
+    <text x="110" y="30" font-family="Arial, sans-serif" font-size="14" fill="#27ae60" text-anchor="middle" font-weight="bold">MouseWorker Thread</text>
+
+    <!-- Sub components -->
+    <rect x="20" y="60" width="180" height="30" rx="3" ry="3" fill="#e8f5e9" stroke="#4caf50"/>
+    <text x="110" y="80" font-family="Arial, sans-serif" font-size="12" fill="#4caf50" text-anchor="middle">MouseSimulator (pynput)</text>
+    
+    <rect x="20" y="100" width="180" height="30" rx="3" ry="3" fill="#fff3e0" stroke="#ff9800"/>
+    <text x="110" y="120" font-family="Arial, sans-serif" font-size="12" fill="#ff9800" text-anchor="middle">Smoothing Queue</text>
+  </g>
+
+  <!-- Arrows -->
+  <!-- Main to CameraWorker -->
+  <path d="M 400 160 L 400 200 L 210 200 L 210 250" fill="none" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Main to MouseWorker -->
+  <path d="M 400 160 L 400 200 L 590 200 L 590 250" fill="none" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- CameraWorker to MouseWorker (Queue) -->
+  <path d="M 320 325 L 480 325" fill="none" stroke="#9b59b6" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  <text x="400" y="315" font-family="Arial, sans-serif" font-size="12" fill="#9b59b6" text-anchor="middle" font-weight="bold">Action Queue</text>
+
+  <!-- Definitions for arrowheads -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7f8c8d" />
+    </marker>
+  </defs>
+</svg>
